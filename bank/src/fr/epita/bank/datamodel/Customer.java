@@ -6,6 +6,28 @@ public class Customer {
     private String name;
     private String address;
 
+
+    /**
+     * <code style='color:red'>only for frameworks</code>
+     */
+    public Customer() {
+    }
+
+
+
+    /** to be used only when the user does not exist yet */
+    public Customer(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    /** nominal case*/
+    public Customer(Integer id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
     public Integer getId() {
         return id;
     }
