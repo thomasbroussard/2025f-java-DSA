@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.Scanner;
 
 public class TestFileInput {
@@ -38,6 +39,23 @@ public class TestFileInput {
         }
         System.out.println("loaded " + entries.size() + " entries");
 
+        //do the average age
+        double totalAge = 0;
+        for (BioStatEntry entry: entries){
+            totalAge = totalAge + entry.getAge();
+        }
+        double averageAge = totalAge/entries.size();
+        System.out.println(averageAge);
+
+        //do the average age with stream approach
+        OptionalDouble average = entries
+                .parallelStream()
+                .mapToInt(BioStatEntry::getAge)
+                .average();
+
+        if (average.isPresent()){
+            System.out.println(average.getAsDouble());
+        }
 
 
     }
