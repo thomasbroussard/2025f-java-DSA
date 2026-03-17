@@ -1,5 +1,7 @@
 package fr.epita.biostat.tests;
 
+import fr.epita.biostat.datamodel.BioStatEntry;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,12 +23,21 @@ public class TestFileInput {
         List<String> lines = Files.readAllLines(path);
         List<BioStatEntry> entries = new ArrayList<>();
         Scanner scanner = new Scanner(file);
+        scanner.nextLine();
         while(scanner.hasNext()){
             String line = scanner.nextLine();
             System.out.println(line);
             String[] parts = line.split(",");
-            entries.add(new BioStatEntry(parts[0], parts[1], parts[2]...));
+            entries.add(new BioStatEntry(
+                    parts[0].trim(),
+                    parts[1].trim(),
+                    Integer.parseInt(parts[2].trim()),
+                    Integer.parseInt(parts[3].trim()),
+                    Integer.parseInt(parts[4].trim())
+            ));
         }
+        System.out.println("loaded " + entries.size() + " entries");
+
 
 
     }
