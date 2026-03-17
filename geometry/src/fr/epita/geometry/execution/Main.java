@@ -39,6 +39,9 @@ public class Main {
 
         double totalArea = 0;
         for (Shape s : shapes){
+            if (s instanceof Square){
+
+            }
             totalArea += s.getArea();
         }
 
