@@ -81,9 +81,30 @@ public class TestFileInput {
 
         System.out.println(countByAge);
 
+        Map<String,Integer> countByAgeClasses = new LinkedHashMap<>();
+        entries.sort(Comparator.comparing(BioStatEntry::getAge));
+        String oldCategory = "40->";
+        String between30_40 = "30->40";
+        String before30 = "->30";
+        for (BioStatEntry entry: entries){
+            String category = "";
+            if (entry.getAge() > 40){
+                category = oldCategory;
+            }else if (entry.getAge() > 30){
+                category = between30_40;
+            }else {
+                category = before30;
+            }
 
+            Integer currentCount = countByAgeClasses.get(category);
+            if (currentCount == null){
+                currentCount = 0;
+            }
+            currentCount++;
+            countByAgeClasses.put(category, currentCount);
+        }
 
-
+        System.out.println(countByAgeClasses);
 
     }
 }
