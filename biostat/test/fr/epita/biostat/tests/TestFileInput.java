@@ -7,10 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.OptionalDouble;
-import java.util.Scanner;
+import java.util.*;
 
 public class TestFileInput {
 
@@ -56,6 +53,23 @@ public class TestFileInput {
         if (average.isPresent()){
             System.out.println(average.getAsDouble());
         }
+
+
+        Map<String,Integer> countByGender = new LinkedHashMap<>();
+
+
+        for (BioStatEntry entry: entries){
+            Integer currentCount = countByGender.get(entry.getSex());
+            if (currentCount == null){
+                currentCount = 0;
+            }
+            currentCount++;
+            countByGender.put(entry.getSex(), currentCount);
+        }
+        System.out.println(countByGender);
+
+
+
 
 
     }
