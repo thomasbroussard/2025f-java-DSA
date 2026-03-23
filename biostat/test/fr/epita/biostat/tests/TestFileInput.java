@@ -68,6 +68,19 @@ public class TestFileInput {
         }
         System.out.println(countByGender);
 
+        Map<Integer,Integer> countByAge = new LinkedHashMap<>();
+        entries.sort(Comparator.comparing(BioStatEntry::getAge));
+        for (BioStatEntry entry: entries){
+            Integer currentCount = countByAge.get(entry.getAge());
+            if (currentCount == null){
+                currentCount = 0;
+            }
+            currentCount++;
+            countByAge.put(entry.getAge(), currentCount);
+        }
+
+        System.out.println(countByAge);
+
 
 
 
