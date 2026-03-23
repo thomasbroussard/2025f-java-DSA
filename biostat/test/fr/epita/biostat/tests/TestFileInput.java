@@ -1,6 +1,7 @@
 package fr.epita.biostat.tests;
 
 import fr.epita.biostat.datamodel.BioStatEntry;
+import fr.epita.biostat.services.CSVService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,27 +14,13 @@ public class TestFileInput {
 
 
     public static void main(String[] args) throws IOException {
-        File file = new File("./java-exercises/biostat/biostat.csv");
-        System.out.println(file.exists());
+        String pathname = "./java-exercises/biostat/biostat.csv";
 
-
-        Path path = Path.of("./java-exercises/biostat/biostat.csv");
+        Path path = Path.of(pathname);
         List<String> lines = Files.readAllLines(path);
-        List<BioStatEntry> entries = new ArrayList<>();
-        Scanner scanner = new Scanner(file);
-        scanner.nextLine();
-        while(scanner.hasNext()){
-            String line = scanner.nextLine();
-            System.out.println(line);
-            String[] parts = line.split(",");
-            entries.add(new BioStatEntry(
-                    parts[0].trim(),
-                    parts[1].trim(),
-                    Integer.parseInt(parts[2].trim()),
-                    Integer.parseInt(parts[3].trim()),
-                    Integer.parseInt(parts[4].trim())
-            ));
-        }
+
+
+        List<BioStatEntry> entries = CSVService.getBioStatEntries(pathname);
         System.out.println("loaded " + entries.size() + " entries");
 
         //do the average age
@@ -107,4 +94,5 @@ public class TestFileInput {
         System.out.println(countByAgeClasses);
 
     }
+
 }
