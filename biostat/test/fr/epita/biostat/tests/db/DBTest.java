@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DBTest {
 
     public static void main(String[] args) throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:test");
+        Connection connection = getConnection();
 
         System.out.println(connection.getSchema());
 
@@ -24,17 +24,7 @@ public class DBTest {
         createTableStatement.execute();
 
         BioStatEntry entry =  new BioStatEntry("thomas", "M", 39, 170, 73);
-        PreparedStatement insertStatement = connection.prepareStatement("""
-                                INSERT INTO BIOSTATS(name, sex, age) VALUES (?, ?, ?)
-                """);
-
-        insertStatement.setString(1, entry.getName());
-        insertStatement.setString(2, entry.getSex());
-        insertStatement.setInt(3, entry.getAge());
-       // insertStatement.setInt(4, entry.getHeight());
-       // insertStatement.setInt(5, entry.getWeight());
-
-        insertStatement.execute();
+        save(entry);
 
         String name = "thomas";
         int age = 40;
@@ -51,6 +41,28 @@ public class DBTest {
 
         deleteStatement.execute();
 
+        connection.close();
 
+    }
+
+    private static void save(BioStatEntry entry) throws SQLException {
+        try(Connection connection = getConnection()) {
+            PreparedStatement insertStatement = connection.prepareStatement("""
+                                INSERT INTO BIOSTATS(name, sex, age) VALUES (?, ?, ?)
+                """);
+
+            insertStatement.setString(1, entry.getName());
+            insertStatement.setString(2, entry.getSex());
+            insertStatement.setInt(3, entry.getAge());
+            // insertStatement.setInt(4, entry.getHeight());
+            // insertStatement.setInt(5, entry.getWeight());
+
+            insertStatement.execute();
+        }
+
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:h2:mem:test");
     }
 }
