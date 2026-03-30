@@ -27,6 +27,21 @@ public class DBTest {
 
         insertStatement.execute();
 
+        String name = "thomas";
+        int age = 40;
+        PreparedStatement updateStatement = connection.prepareStatement("""
+                                UPDATE BIOSTATS SET age = ? where name = ?
+                """);
+
+        updateStatement.setString(2,  name);
+        updateStatement.setInt(1,  age);
+        updateStatement.execute();
+        PreparedStatement deleteStatement = connection.prepareStatement("""
+                                DELETE FROM BIOSTATS where name='thomas'
+                """);
+
+        deleteStatement.execute();
+
 
     }
 }
