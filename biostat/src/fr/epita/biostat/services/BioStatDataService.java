@@ -9,6 +9,9 @@ import java.util.List;
 public class BioStatDataService {
 
 
+
+
+
     public void save(BioStatEntry entry) throws SQLException {
         try (Connection connection = getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement("""
@@ -49,7 +52,6 @@ public class BioStatDataService {
             ResultSet resultSet = selectStatement.executeQuery();
 
             while(resultSet.next()){
-
                 String name = resultSet.getString("name");
                 int age = resultSet.getInt("age");
                 String sex = resultSet.getString("sex");
