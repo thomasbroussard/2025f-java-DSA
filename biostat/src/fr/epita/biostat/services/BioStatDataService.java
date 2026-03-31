@@ -54,22 +54,31 @@ public class BioStatDataService {
     public List<BioStatEntry> search(BioStatEntry qbe) throws SQLException {
         List<BioStatEntry> entries = new ArrayList<>();
         try(Connection connection = getConnection()) {
-            String selectQuery = """
-                    SELECT name,age,sex FROM BIOSTATS 
+           /* String selectQuery = """
+                    SELECT name,age,sex FROM BIOSTATS
                     where 
                         (? IS NULL OR name = ?) 
                         and
                         (? IS NULL OR age = ?)
                         and
                         (? IS NULL OR sex = ?)
+                    """;*/
+            String selectQuery = """
+                    SELECT name,age,sex FROM BIOSTATS 
+                    where 
+                        (? IS NULL OR name = ?) 
+                        and
+                  
+                     
+                        (? IS NULL OR sex = ?)
                     """;
             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
             selectStatement.setString(1, qbe.getName());
             selectStatement.setString(2, qbe.getName());
-            selectStatement.setInt(3, qbe.getAge());
-            selectStatement.setInt(4, qbe.getAge());
-            selectStatement.setString(5, qbe.getSex());
-            selectStatement.setString(6, qbe.getSex());
+            //selectStatement.setObject(3, qbe.getAge());
+            //selectStatement.setObject(4, qbe.getAge());
+            selectStatement.setString(3, qbe.getSex());
+            selectStatement.setString(4, qbe.getSex());
 
             ResultSet resultSet = selectStatement.executeQuery();
 
@@ -97,7 +106,15 @@ public class BioStatDataService {
     }
 
 
-    public void delete(BioStatEntry entry){
+    public void delete(BioStatEntry entry) throws SQLException {
+        try (Connection connection = getConnection()) {
+            PreparedStatement deleteStatement = connection.prepareStatement("""
+                                    DELETE FROM BIOSTATS where name='thomas'
+                    """);
+
+            deleteStatement.execute();
+        }
+
 
     }
 
@@ -105,7 +122,7 @@ public class BioStatDataService {
 
 
     private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:h2:mem:test");
+        return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
     }
 }
 

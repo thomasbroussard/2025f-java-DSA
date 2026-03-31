@@ -17,15 +17,14 @@ public class DBTest {
         service.save(entry);
 
         entry.setAge(40);
+        BioStatEntry qbe = new BioStatEntry(null, null, null, null, null);
+
+        System.out.println(service.search(qbe));
         service.update(entry);
+        service.search(qbe);
+        service.delete(entry);
+        System.out.println(service.search(qbe));
 
-        PreparedStatement deleteStatement = connection.prepareStatement("""
-                                DELETE FROM BIOSTATS where name='thomas'
-                """);
-
-        deleteStatement.execute();
-
-        connection.close();
 
     }
 
